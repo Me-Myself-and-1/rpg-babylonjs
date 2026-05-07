@@ -1,38 +1,51 @@
-import "@babylonjs/core/Debug/debugLayer";
-import "@babylonjs/inspector";
-import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Mesh, MeshBuilder } from "@babylonjs/core";
+import { Engine, Scene, Vector3, HemisphericLight, MeshBuilder, PhysicsImpostor, CannonJSPlugin } from "@babylonjs/core";
+import { movePlayerRelative, setupPlayer } from "./player";
+import * as CANNON from "cannon";
 
-var canvas = document.createElement("canvas");
-canvas.style.width = "100%";
-canvas.style.height = "100%";
-canvas.id = "gameCanvas";
-document.body.appendChild(canvas);
+var canvas = document.querySelector("canvas");
 
 // initialize babylon scene and engine
 var engine = new Engine(canvas, true);
 var scene = new Scene(engine);
+scene.enablePhysics(new Vector3(0, -9.81, 0), new CannonJSPlugin(true, 10, CANNON))
 
-var camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, Vector3.Zero(), scene);
-camera.attachControl(canvas, true);
 var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
-var sphere: Mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
+var ground = MeshBuilder.CreateGround("ground", { height: 10, width: 10 }, scene);
+ground.physicsImpostor = new PhysicsImpostor(ground, PhysicsImpostor.BoxImpostor, { mass: 0 }, scene);
+
+setupPlayer(scene)
 
 window.addEventListener("resize", () => {
-    engine.resize();
+	engine.resize();
 })
+
 // hide/show the Inspector
-window.addEventListener("keydown", (ev) => {
-    // Shift+Ctrl+Alt+I
-    if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.keyCode === 73) {
-        if (scene.debugLayer.isVisible()) {
-            scene.debugLayer.hide();
-        } else {
-            scene.debugLayer.show();
-        }
-    }
+window.addEventListener("keydown", ev => {
+	// Shift+Ctrl+Alt+I
+	if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.keyCode === 73) {
+		if (scene.debugLayer.isVisible()) {
+			scene.debugLayer.hide();
+		} else {
+			scene.debugLayer.show();
+		}
+	}
+	switch (ev.key) {
+		case "ArrowUp":
+			movePlayerRelative(Vector3.Forward(), 1);
+			break
+		case "ArrowDown":
+			movePlayerRelative(Vector3.Backward(), 1);
+			break
+		case "ArrowLeft":
+			movePlayerRelative(Vector3.Left(), 1);
+			break
+		case "ArrowRight":
+			movePlayerRelative(Vector3.Right(), 1);
+			break
+	}
 });
 
 // run the main render loop
 engine.runRenderLoop(() => {
-    scene.render();
+	scene.render();
 });
