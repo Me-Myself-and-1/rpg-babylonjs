@@ -1,7 +1,7 @@
 import { Scene } from "@babylonjs/core/scene.js";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector.js";
 import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera.js";
-import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor.js";
+import { PhysicsImpostor } from "@babylonjs/core/Physics/v1/physicsImpostor.js";
 import { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder.js";
 import { Mesh } from "@babylonjs/core/Meshes/mesh.js";
 

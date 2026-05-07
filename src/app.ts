@@ -4,7 +4,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector.js";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight.js";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder.js";
 import { CannonJSPlugin} from "@babylonjs/core/Physics/v1/Plugins/cannonJSPlugin.js";
-import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor.js";
+import { PhysicsImpostor } from "@babylonjs/core/Physics/v1/physicsImpostor.js";
 import { movePlayerRelative, setupPlayer } from "./player";
 import * as CANNON from "cannon";
 
