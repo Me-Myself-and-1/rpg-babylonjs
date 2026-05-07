@@ -1,10 +1,15 @@
-import { ArcRotateCamera, Mesh, MeshBuilder, PhysicsImpostor, Scene, Vector3 } from "@babylonjs/core";
+import { Scene } from "@babylonjs/core/scene";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
+import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor";
+import { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
 var player: Mesh
 var camera: ArcRotateCamera
 
 export function setupPlayer(scene: Scene) {
-	player = MeshBuilder.CreateCapsule("player", { radius: 0.5, height: 2 }, scene)
+	player = CreateCapsule("player", { radius: 0.5, height: 2 }, scene)
 	player.position.y = 10
 	player.physicsImpostor = new PhysicsImpostor(player, PhysicsImpostor.CapsuleImpostor, { mass: 1 }, scene);
 

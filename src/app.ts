@@ -1,4 +1,10 @@
-import { Engine, Scene, Vector3, HemisphericLight, MeshBuilder, PhysicsImpostor, CannonJSPlugin } from "@babylonjs/core";
+import { Engine } from "@babylonjs/core/Engines/engine";
+import { Scene } from "@babylonjs/core/scene";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
+import { CannonJSPlugin} from "@babylonjs/core/Physics/v1/Plugins/cannonJSPlugin";
+import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor";
 import { movePlayerRelative, setupPlayer } from "./player";
 import * as CANNON from "cannon";
 
@@ -10,7 +16,7 @@ var scene = new Scene(engine);
 scene.enablePhysics(new Vector3(0, -9.81, 0), new CannonJSPlugin(true, 10, CANNON))
 
 var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
-var ground = MeshBuilder.CreateGround("ground", { height: 10, width: 10 }, scene);
+var ground = CreateGround("ground", { height: 10, width: 10 }, scene);
 ground.physicsImpostor = new PhysicsImpostor(ground, PhysicsImpostor.BoxImpostor, { mass: 0 }, scene);
 
 setupPlayer(scene)
