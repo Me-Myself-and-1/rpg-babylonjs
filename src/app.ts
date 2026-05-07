@@ -1,10 +1,10 @@
-import { Engine } from "@babylonjs/core/Engines/engine";
-import { Scene } from "@babylonjs/core/scene";
-import { Vector3 } from "@babylonjs/core/Maths/math.vector";
-import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
-import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
-import { CannonJSPlugin} from "@babylonjs/core/Physics/v1/Plugins/cannonJSPlugin";
-import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor";
+import { Engine } from "@babylonjs/core/Engines/engine.js";
+import { Scene } from "@babylonjs/core/scene.js";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector.js";
+import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight.js";
+import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder.js";
+import { CannonJSPlugin} from "@babylonjs/core/Physics/v1/Plugins/cannonJSPlugin.js";
+import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor.js";
 import { movePlayerRelative, setupPlayer } from "./player";
 import * as CANNON from "cannon";
 

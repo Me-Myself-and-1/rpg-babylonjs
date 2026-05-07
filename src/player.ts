@@ -1,9 +1,9 @@
-import { Scene } from "@babylonjs/core/scene";
-import { Vector3 } from "@babylonjs/core/Maths/math.vector";
-import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
-import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor";
-import { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder";
-import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { Scene } from "@babylonjs/core/scene.js";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector.js";
+import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera.js";
+import { PhysicsImpostor } from "babylonjs/core/Physics/v1/physicsImpostor.js";
+import { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder.js";
+import { Mesh } from "@babylonjs/core/Meshes/mesh.js";
 
 var player: Mesh
 var camera: ArcRotateCamera
