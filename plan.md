@@ -5,3 +5,4 @@
 - [ ] stats
 - [ ] inventory
   - [ ] items
+- [ ] setting gui

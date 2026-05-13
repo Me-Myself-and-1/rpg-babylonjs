@@ -1,47 +1,72 @@
-import { Scene } from "@babylonjs/core/scene.js";
-import { Vector3 } from "@babylonjs/core/Maths/math.vector.js";
-import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera.js";
-import { PhysicsImpostor } from "@babylonjs/core/Physics/v1/physicsImpostor.js";
-import { CreateCapsule } from "@babylonjs/core/Meshes/Builders/capsuleBuilder.js";
-import { Mesh } from "@babylonjs/core/Meshes/mesh.js";
+import { Scene } from "@babylonjs/core/scene";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
+import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
+import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
+import { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { KeyHelper } from "./keys";
 
-var player: Mesh
-var camera: ArcRotateCamera
+export class Player {
+	private this: Mesh;
+	private camera: ArcRotateCamera;
+	private moved = true;
 
-export function setupPlayer(scene: Scene) {
-	player = CreateCapsule("player", { radius: 0.5, height: 2 }, scene)
-	player.position.y = 10
-	player.physicsImpostor = new PhysicsImpostor(player, PhysicsImpostor.CapsuleImpostor, { mass: 1 }, scene);
+	constructor(scene: Scene, keyHelper: KeyHelper) {
+		// make the this mesh
+		this.this = CreateSphere("this", { diameter: 1 }, scene);
+		this.this.position = new Vector3(0, 10, 0);
+		this.this.physicsImpostor = new PhysicsImpostor(this.this, PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0 }, scene);
+		this.this.physicsImpostor.registerBeforePhysicsStep(impostor => {
+			// make it so the movement doesn't build up and zoom away and so it slows down when you stop moving
+			const velocity = impostor.getLinearVelocity()?.multiplyByFloats(0.9, 1, 0.9) as Vector3;
+			impostor.setLinearVelocity(new Vector3(
+				Math.max(Math.min(velocity.x, Player.maxSpeed), -Player.maxSpeed),
+				velocity.y,
+				Math.max(Math.min(velocity.z, Player.maxSpeed), -Player.maxSpeed)));
+			this.moved = false;
+		});
 
-	camera = new ArcRotateCamera("camera1", Math.PI / 4, Math.PI / 4, 10, player.position, scene);
-	camera.lowerRadiusLimit = 2;
-	camera.upperRadiusLimit = 15;
-	camera.upperBetaLimit = Math.PI / 2;
-	camera.targetScreenOffset.y = -0.5
-	camera.attachControl(true);
+		// make the ArcRotateCamera
+		this.camera = new ArcRotateCamera("camera1", Math.PI / 4, Math.PI / 4, 10, new Vector3(0, 0.5, 0), scene);
+		this.camera.lowerRadiusLimit = 2;
+		this.camera.upperRadiusLimit = 15;
+		this.camera.upperBetaLimit = Math.PI / 2;
+		this.camera.attachControl(true);
+		this.camera.parent = this.this;
 
-	camera.keysUp = [87];
-	camera.keysDown = [83];
-	camera.keysRight = [68];
-	camera.keysLeft = [65];/*
-	scene.onKeyboardObservable.add((kbInfo) => {
-		switch (kbInfo.type) {
-			case KeyboardEventTypes.KEYDOWN:
-				console.log("KEY DOWN: ", kbInfo.event.key);
-				break;
-			case KeyboardEventTypes.KEYUP:
-				console.log("KEY UP: ", kbInfo.event.code);
-				break;
-		}
-	});*/
-}
-export function movePlayerRelative(dir: Vector3, strength: number) {
-	var move: Vector3
-	if (dir.y) move = dir
-	else {
-		move = camera.getDirection(dir);
-		move.y = 0;
+		// set rotate camera with wasd later there will be a setting gui
+		this.camera.keysUp = [87];
+		this.camera.keysDown = [83];
+		this.camera.keysRight = [68];
+		this.camera.keysLeft = [65];
+		keyHelper.addListeners(
+			["ArrowUp", () => this.moveRelative(Vector3.Forward(), Player.speed)],
+			["ArrowDown", () => this.moveRelative(Vector3.Backward(), Player.speed)],
+			["ArrowLeft", () => this.moveRelative(Vector3.Left(), Player.speed)],
+			["ArrowRight", () => this.moveRelative(Vector3.Right(), Player.speed)],
+			[" ", () => {
+				if (this.isOnGround()) this.moveRelative(Vector3.Up(), Player.jumpSpeed);
+			}]);
 	}
-	move.normalize();
-	player.physicsImpostor?.applyImpulse(move.scale(strength), player.position)
+	private moveRelative(dir: Vector3, strength: number) {
+		let move: Vector3
+		if (dir.y !== 0) move = dir;
+		else {
+			this.moved = true;
+			move = this.camera.getDirection(dir);
+			move.y = 0;
+		}
+		move.normalize();
+		this.this.physicsImpostor?.applyImpulse(move.scale(strength), this.this.position);
+	}
+	isOnGround() {
+		// Later I'll check if the this is on the ground
+		return this.this.position.y <= 1;
+	}
+	updateCamera() {
+		this.this.rotation = Vector3.Zero();
+	}
+	static speed = 2.5;
+	static jumpSpeed = 2.5;
+	static maxSpeed = 10;
 }
