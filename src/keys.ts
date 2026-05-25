@@ -2,6 +2,13 @@
 export class KeyHelper {
 	private keys: { [key: string]: boolean } = {};
 	private listeners: { key: string, listener: () => void }[] = [];
+	keyNames = {
+		moveForward: "ArrowUp",
+		moveBack: "ArrowDown",
+		moveLeft: "ArrowLeft",
+		moveRight: "ArrowRight",
+		jump: " ",
+	}
 
 	constructor() {
 		window.addEventListener("blur", () => {
@@ -21,8 +28,6 @@ export class KeyHelper {
 		for (let value of values) this.addListener(value[0], value[1]);
 	}
 	update() {
-		for (let listener of this.listeners) {
-			if (this.getState(listener.key)) listener.listener();
-		}
+		for (let listener of this.listeners) if (this.getState(this.keyNames[listener.key])) listener.listener();
 	}
 }
