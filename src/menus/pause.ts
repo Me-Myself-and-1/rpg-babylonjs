@@ -1,22 +1,22 @@
-import { Button, Control } from "@babylonjs/gui";
 import { Game } from "../game";
+import { KeyHelper } from "../keys";
 import { Menu } from "./menu";
+import { Settings } from "./settings";
 
 export class PauseMenu extends Menu {
-	constructor(game: Game) {
-		super("pause");
+	constructor(game: Game, keyHelper: KeyHelper) {
+		super("pause", game);
 
 		const buttons = [
-			this.addButton("Unpause"),
-			this.addButton("Settings"),
-			this.addButton("Inventory"),
-			this.addButton("Save"),
-			this.addButton("Load"),
+			this.addButton("settings", new Settings(keyHelper, game)),
+			this.addButton("inventory"),
+			this.addButton("save"),
+			this.addButton("load"),
 		]
-		buttons[0].onPointerUpObservable.add(() => {
-			this.hide(game);
-		});
-
-		this.show(game);
+		/*buttons[0].onPointerUpObservable.add((_, ev) => {
+			//this.hide(game);
+			console.log(ev.userInfo.event);
+		});*/
+		keyHelper.addListener("pause", () => this.show())
 	}
 }

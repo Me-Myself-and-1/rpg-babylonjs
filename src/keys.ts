@@ -3,11 +3,12 @@ export class KeyHelper {
 	private keys: { [key: string]: boolean } = {};
 	private listeners: { key: string, listener: () => void }[] = [];
 	keyNames = {
-		moveForward: "ArrowUp",
-		moveBack: "ArrowDown",
-		moveLeft: "ArrowLeft",
-		moveRight: "ArrowRight",
-		jump: " ",
+		moveForward: ["ArrowUp"],
+		moveBack: ["ArrowDown"],
+		moveLeft: ["ArrowLeft"],
+		moveRight: ["ArrowRight"],
+		jump: ["Space"],
+		pause: ["Escape"],
 	}
 
 	constructor() {
@@ -21,6 +22,10 @@ export class KeyHelper {
 	getState(key: string) {
 		return this.keys[key];
 	}
+	anyState(keys: string[]) {
+		for (let key of keys) if (this.getState(key)) return true;
+		return false;
+	}
 	addListener(key: string, listener: () => void) {
 		this.listeners.push({ key: key, listener: listener });
 	}
@@ -28,6 +33,6 @@ export class KeyHelper {
 		for (let value of values) this.addListener(value[0], value[1]);
 	}
 	update() {
-		for (let listener of this.listeners) if (this.getState(this.keyNames[listener.key])) listener.listener();
+		for (let listener of this.listeners) if (this.anyState(this.keyNames[listener.key])) listener.listener();
 	}
 }

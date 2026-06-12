@@ -34,17 +34,17 @@ export class Game {
 				if (this.scene.debugLayer.isVisible()) this.scene.debugLayer.hide();
 				else this.scene.debugLayer.show();
 			}
-			this.keyHelper.setState(ev.key, true);
+			this.keyHelper.setState(ev.code, true);
 		});
 		window.addEventListener("keyup", ev => {
-			this.keyHelper.setState(ev.key, false);
+			this.keyHelper.setState(ev.code, false);
 		})
 		// run the main render loop
 		this.engine.runRenderLoop(() => {
 			if (!this.paused) this.keyHelper.update();
 			this.scene.render();
 		});
-		new PauseMenu(this).show(this);
+		new PauseMenu(this, this.keyHelper);
 	}
 }
 new Game();
