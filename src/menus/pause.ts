@@ -13,10 +13,12 @@ export class PauseMenu extends Menu {
 			this.addButton("save"),
 			this.addButton("load"),
 		]
-		/*buttons[0].onPointerUpObservable.add((_, ev) => {
-			//this.hide(game);
-			console.log(ev.userInfo.event);
-		});*/
-		keyHelper.addListener("pause", () => this.show())
+		buttons[2].onPointerUpObservable.add(() => {
+			//save
+		});
+		buttons[3].onPointerUpObservable.add(() => {
+			//load
+		});
+		keyHelper.addListener("pause", () => this.show());
 	}
 }

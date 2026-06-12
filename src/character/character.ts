@@ -9,7 +9,7 @@ export class Character {
 		this.physicsMesh = CreateSphere("physicsmesh " + name, { diameter: 1 }, scene);
 		this.physicsMesh.physicsImpostor = new PhysicsImpostor(this.physicsMesh, PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0 }, scene);
 		this.physicsMesh.position = position;
-		CreateBox("test", {width: 0.1}).parent = this.physicsMesh
+		CreateBox("test", {width: 0.1}).parent = this.physicsMesh;
 
 		this.physicsMesh.physicsImpostor.registerAfterPhysicsStep(impostor => {
 			const velocity = impostor.getLinearVelocity()?.multiplyByFloats(this.drag, 1, this.drag) as Vector3;

@@ -48,18 +48,18 @@ export class Menu {
 		this.game.paused = false;
 		this.gui.rootContainer.isVisible = false;
 	}
-	addButton(name: string, menu?: Menu) {
+	addButton(name: string, menu?: Menu): Button {
 		const button = Menu.makeButton(name);
 		this.panel.addControl(button);
 		if (menu) this.buttonOpenMenu(button, menu);
 		return button;
 	}
-	addText(name: string) {
+	addText(name: string): TextBlock {
 		const textBlock = Menu.makeText(name);
 		this.panel.addControl(textBlock);
 		return textBlock;
 	}
-	static makeButton(name: string) {
+	static makeButton(name: string): Button {
 		const button = Button.CreateSimpleButton(name, name[0].toUpperCase() + name.replace(/([A-Z])/g, " $1").trim().slice(1));
 		button.width = 0.25;
 		button.height = "40px";
@@ -70,7 +70,7 @@ export class Menu {
 		button.fontFamily = "georgia";
 		return button;
 	}
-	static makeText(name: string) {
+	static makeText(name: string): TextBlock {
 		const textBlock = new TextBlock(name, name[0].toUpperCase() + name.replace(/([A-Z])/g, " $1").trim().slice(1));
 		textBlock.width = 0.25;
 		textBlock.height = "40px";
