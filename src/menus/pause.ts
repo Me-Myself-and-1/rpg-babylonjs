@@ -1,5 +1,6 @@
 import { Game } from "../game";
 import { KeyHelper } from "../keys";
+import { Inventory } from "./inventory";
 import { Menu } from "./menu";
 import { Settings } from "./settings";
 
@@ -9,7 +10,7 @@ export class PauseMenu extends Menu {
 
 		const buttons = [
 			this.addButton("settings", new Settings(keyHelper, game)),
-			this.addButton("inventory"),
+			this.addButton("inventory", new Inventory(game)),
 			this.addButton("save"),
 			this.addButton("load"),
 		]

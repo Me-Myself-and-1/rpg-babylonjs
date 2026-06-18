@@ -3,7 +3,7 @@ import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/core/Physics/physicsEngineComponent";
 import "@babylonjs/inspector";
 import CANNON from "cannon";
-import { Player } from "./character/player";
+import { Player } from "./characters/player";
 import { KeyHelper } from "./keys";
 import { PauseMenu } from "./menus/pause";
 
@@ -33,6 +33,7 @@ export class Game {
 			if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.keyCode === 73) {
 				if (this.scene.debugLayer.isVisible()) this.scene.debugLayer.hide();
 				else this.scene.debugLayer.show();
+				
 			}
 			this.keyHelper.setState(ev.code, true);
 		});

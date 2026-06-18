@@ -2,7 +2,7 @@
 export class KeyHelper {
 	private keys: { [key: string]: boolean } = {};
 	private listeners: { key: string, listener: () => void }[] = [];
-	keyNames = {
+	keyNames: {[key: string]: string[]} = {
 		moveForward: ["ArrowUp"],
 		moveBack: ["ArrowDown"],
 		moveLeft: ["ArrowLeft"],

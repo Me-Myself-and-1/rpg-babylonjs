@@ -1,8 +1,13 @@
 # To add
 
 - [ ] levels
+  - [ ] generator
+  - [ ] loot
   - [ ] enemies
 - [ ] stats
-- [ ] inventory
-  - [ ] items
-- [ ] setting gui
+  - [ ] upgradeable
+- [x] inventory
+  - [x] items
+    - [ ] equip/use them
+- [x] setting gui
+- [ ] shop
